@@ -32,6 +32,6 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 
 });
 
-Route::group(['prefix' => 'activation', 'as' => 'activation.'], function() {
+Route::group(['prefix' => 'activation', 'as' => 'activation.', 'middleware' => ['guest', 'confirmation_token.expired:/']], function() {
     Route::get('/{confirmation_token}', 'Auth\ActivationController@activate')->name('activate');
 });

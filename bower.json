@@ -1,0 +1,19 @@
+{
+  "name": "laravel-saas",
+  "description": "test",
+  "main": "",
+  "license": "MIT",
+  "homepage": "https://github.com/upmedia/laravelsaas",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "datatables-responsive": "^2.2.1"
+  }
+}

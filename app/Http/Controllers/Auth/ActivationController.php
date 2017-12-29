@@ -11,6 +11,11 @@ class ActivationController extends Controller
 {
     protected $redirectTo = '/dashboard';
 
+    public function __construct()
+    {
+        $this->middleware(['confirmation_token.expired:/']);
+    }
+
     public function activate(ConfirmationToken $token, Request $request)
     {
         $token->user->update([

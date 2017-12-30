@@ -17,7 +17,7 @@
                                 <select name="plan" id="plan" class="form-control">
                                     @foreach ($plans as $plan)
                                         <option value="{{ $plan->gateway_id }}"{{ request('plan') === $plan->slug || old('plan') === $plan->gateway_id ? ' selected="selected"' : '' }}>
-                                            {{ $plan->name }} (&pound;{{ $plan->price }})
+                                            {{ $plan->name }} (dkk {{ $plan->price }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -55,4 +55,37 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+        var handler = StripeCheckout.configure({
+            key: '{{ config('services.stripe.key') }}',
+            locale: 'auto',
+            token: function(token) {
+                var form = $('#payment-form');
+                $('#pay').prop('disable', true);
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'token',
+                    value: token.id
+                }).appendTo(form);
+
+                form.submit();
+            }
+        });
+
+        $('#pay').click( function(e) {
+            e.preventDefault();
+            handler.open({
+                name: 'Upmedia',
+                description: 'Membership',
+                currency: 'ddk',
+                key: '{{ config('services.stripe.key') }}',
+                email: '{{ auth()->user()->email }}'
+            });
+        })
+
+    </script>
 @endsection
